@@ -32,7 +32,7 @@ public class baseTest {
     @AfterEach
     public void tearDown(){
         driver.manage().deleteAllCookies();
-        //driver.quit();
+        driver.quit();
 
 
     }
