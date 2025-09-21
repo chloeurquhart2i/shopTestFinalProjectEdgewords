@@ -1,0 +1,54 @@
+/*This is where I'll implement a Set-up and Tear-down, etc
+ */
+
+package uk.co.twoitesting.basetests;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.time.Duration;
+
+
+public class baseTest {
+    protected WebDriver driver;
+
+    @BeforeEach
+    public void setUP(){
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().deleteAllCookies();
+
+        login();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
+    }
+
+    @AfterEach
+    public void tearDown(){
+        driver.manage().deleteAllCookies();
+        //driver.quit();
+
+
+    }
+
+    private void login(){
+        System.out.println("Starting test...");
+        driver.get("https://www.edgewordstraining.co.uk/demo-site");
+        driver.findElement(By.id("menu-item-46")).click();
+        driver.findElement(By.cssSelector("#username")).sendKeys("chloe.urquhart@2itesting.com");
+        driver.findElement(By.cssSelector("#password")).sendKeys("EdgewordsTraining123!!");
+        driver.findElement(By.linkText("Dismiss")).click();
+        driver.findElement(By.cssSelector("button[value='Log in']")).click();
+        System.out.println("logged in successfully");
+
+    }
+
+
+
+}
