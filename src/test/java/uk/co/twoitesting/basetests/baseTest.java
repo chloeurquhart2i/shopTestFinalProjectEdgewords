@@ -31,6 +31,7 @@ public class baseTest {
             throw new RuntimeException("browser must be set on command line");
         }
 
+        //mvn test -Dbrowser=chrome
         switch (browser){
             case "chrome" -> driver = new ChromeDriver();
             case "firefox" -> driver = new FirefoxDriver();

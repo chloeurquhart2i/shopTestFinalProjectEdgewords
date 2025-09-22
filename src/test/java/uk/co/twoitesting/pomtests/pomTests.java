@@ -12,6 +12,9 @@ import java.math.BigDecimal;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class pomTests extends baseTest {
+
+
+
     @Test
     @Order(1)
     public void discount_applies_and_total_is_correct() {
