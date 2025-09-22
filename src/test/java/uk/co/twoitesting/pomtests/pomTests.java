@@ -68,13 +68,12 @@ public class pomTests extends baseTest {
         String myOrdersText = account.getOrderTextById(idDigits);
 
         //Assertions
-        assertTrue(myOrdersText.contains("#" + idDigits),
+        assertTrue(myOrdersText.contains( '#' + idDigits),
                 "Link href matched, but link text did not contain #" + idDigits + " (was: " + myOrdersText + ")");
         assertEquals(orderNumber, myOrdersText,
                 "Order number differs between confirmation and My Orders");
 
         System.out.println("Order numbers match! Confirmation: " + orderNumber + " My Orders: " + myOrdersText);
-
 
         }
     }
