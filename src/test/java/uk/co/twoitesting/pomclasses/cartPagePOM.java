@@ -39,7 +39,7 @@ public class cartPagePOM extends pomTests {
         BigDecimal shipping;
         List<WebElement> shipAmt = driver.findElements(By.cssSelector("tr.shipping td .woocommerce-Price-amount bdi"));
         if (!shipAmt.isEmpty()) {
-            shipping = toMoney(shipAmt.get(0).getText());
+            shipping = toMoney(shipAmt.getFirst().getText());
         } else {
             String shipLabel = wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.cssSelector("tr.shipping td label:nth-child(2)"))).getText();
@@ -50,10 +50,10 @@ public class cartPagePOM extends pomTests {
                 By.cssSelector(".order-total > td"))).getText();
 
         BigDecimal subtotal = toMoney(subtotalTxt);
-        BigDecimal discount = toMoney(discountTxt).abs(); // UI shows "-£X.XX"
+        BigDecimal discount = toMoney(discountTxt).abs();
         BigDecimal totalUI  = toMoney(totalTxt);
 
-        return new Totals(subtotal, discount, shipping, tax, totalUI);
+        return new Totals(subtotal, discount, shipping, totalUI);
     }
 
     // Used this method instead of ParseMoney as I couldn't get ParseMoney to work - so that the money is converted to a usable data chunk
@@ -61,18 +61,15 @@ public class cartPagePOM extends pomTests {
         String cleaned = s.replace("£","")
                 .replace(",","")
                 .replace("−","-").replace("–","-")
-                .replaceAll("[^0-9\\.-]","");
+                .replaceAll("[^0-9.-]","");
         if (cleaned.isEmpty()) throw new IllegalArgumentException("No money in: " + s);
         return new BigDecimal(cleaned).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public static class Totals {
-        public final BigDecimal subtotal, discount, shipping, tax, totalUI;
-        public Totals(BigDecimal sub, BigDecimal disc, BigDecimal ship, BigDecimal tax, BigDecimal total) {
-            this.subtotal = sub; this.discount = disc; this.shipping = ship; this.tax = tax; this.totalUI = total;
-        }
+    public record Totals(BigDecimal subtotal, BigDecimal discount, BigDecimal shipping, BigDecimal totalUI) {
+
         public BigDecimal expected() {
-            return subtotal.subtract(discount).add(shipping).add(tax).setScale(2, RoundingMode.HALF_UP);
+                return subtotal.subtract(discount).add(shipping).setScale(2, RoundingMode.HALF_UP);
+            }
         }
-    }
 }

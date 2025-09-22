@@ -11,7 +11,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 
 
@@ -19,10 +25,23 @@ public class baseTest {
     protected WebDriver driver;
 
     @BeforeEach
-    public void setUP(){
-        driver = new ChromeDriver();
+    public void setUP() throws URISyntaxException, MalformedURLException {
+        String browser = System.getProperty("browser");
+        if(browser==null){
+            throw new RuntimeException("browser must be set on command line");
+        }
+
+        switch (browser){
+            case "chrome" -> driver = new ChromeDriver();
+            case "firefox" -> driver = new FirefoxDriver();
+            case "edgeLinux" -> {
+                EdgeOptions options = new EdgeOptions();
+                options.setPlatformName("Linux");
+                driver = new RemoteWebDriver(new URI("http://172.19.31.211:4444/").toURL(), options);
+            }
+            default -> throw new RuntimeException("Browser not supported");
+        }
         driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
 
         login();
 
@@ -31,7 +50,6 @@ public class baseTest {
 
     @AfterEach
     public void tearDown(){
-        driver.manage().deleteAllCookies();
         driver.quit();
 
 
