@@ -117,8 +117,7 @@ public class discountTestCodeDump extends baseTest {
             );
 
             org.junit.jupiter.api.Assertions.assertEquals(
-                    expected, totalUI,
-                    "Order total should equal subtotal - discount + shipping + tax"
+                    expected, totalUI,                    "Order total should equal subtotal - discount + shipping + tax"
             );
 
             System.out.println("Coupon calculations working as expected");

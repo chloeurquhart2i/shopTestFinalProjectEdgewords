@@ -25,8 +25,12 @@ public class baseTest {
     protected WebDriver driver;
 
     @BeforeEach
-    public void setUP() throws URISyntaxException, MalformedURLException {
-        String browser = System.getProperty("browser");
+    public void setUP() //throws URISyntaxException, MalformedURLException //
+    {
+        driver = new ChromeDriver();
+
+        //This really doesn't like me
+        /* String browser = System.getProperty("browser");
         if(browser==null){
             throw new RuntimeException("browser must be set on command line");
         }
@@ -41,7 +45,8 @@ public class baseTest {
                 driver = new RemoteWebDriver(new URI("http://172.19.31.211:4444/").toURL(), options);
             }
             default -> throw new RuntimeException("Browser not supported");
-        }
+        } */
+
         driver.manage().window().maximize();
 
         login();

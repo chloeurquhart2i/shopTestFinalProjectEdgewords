@@ -75,7 +75,6 @@ public class pomTests extends baseTest {
 
         System.out.println("Order numbers match! Confirmation: " + orderNumber + " My Orders: " + myOrdersText);
 
-        // It appears that the order number confirmation will fail as the Expected is always different to the actual - usually one extra number is added.
 
         }
     }
