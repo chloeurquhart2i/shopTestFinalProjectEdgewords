@@ -23,7 +23,9 @@ public class checkoutPagePOM extends pomTests {
             String first, String last, String company,
             String addr1, String city, String postcode,
             String phone, String email
-    ){
+    )
+    {
+        //Billing form locators
         set(By.id("billing_first_name"), first);
         set(By.id("billing_last_name"), last);
         set(By.id("billing_company"), company);
@@ -41,9 +43,10 @@ public class checkoutPagePOM extends pomTests {
     }
 
     public String captureOrderNumber() {
+        //Locator for capturing order number via confirmation page and trimming it so it's readable
         WebElement orderNumberEl = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.cssSelector("#post-6 ul.woocommerce-order-overview li.woocommerce-order-overview__order.order > strong")
         ));
-        return orderNumberEl.getText().trim(); // e.g. "#15717"
+        return orderNumberEl.getText().trim();
     }
 }

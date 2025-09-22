@@ -11,6 +11,7 @@ public class accountPagePOM extends pomTests {
     public accountPagePOM(WebDriver driver){ this.driver = driver; this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); }
 
     public accountPagePOM openOrders() {
+        //Locators for clickable elements
         driver.findElement(By.linkText("My account")).click();
         driver.findElement(By.linkText("Orders")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("table.woocommerce-orders-table")));
@@ -18,6 +19,7 @@ public class accountPagePOM extends pomTests {
     }
 
     public String getOrderTextById(String orderIdDigits) {
+        //Capturing the order number via My Orders and trimming it so it's readable
         WebElement a = driver.findElement(By.xpath(
                 "//table[contains(@class,'woocommerce-orders-table')]//td[contains(@class,'order-number')]//a[contains(@href, '/view-order/" + orderIdDigits + "/')]"
         ));

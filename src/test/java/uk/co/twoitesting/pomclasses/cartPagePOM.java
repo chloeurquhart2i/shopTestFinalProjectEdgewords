@@ -14,6 +14,7 @@ public class cartPagePOM extends pomTests {
     public cartPagePOM(WebDriver driver){ this.driver = driver; this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); }
 
     public cartPagePOM applyCoupon(String code) {
+        //Capturing elements and implicit waits to allow this
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#coupon_code"))).sendKeys(code);
         driver.findElement(By.cssSelector("button[value='Apply coupon']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("tr.cart-discount")));
@@ -21,6 +22,7 @@ public class cartPagePOM extends pomTests {
     }
 
     public checkoutPagePOM proceedToCheckout() {
+        //Locators
         driver.findElement(By.linkText("Proceed to checkout")).click();
         return new checkoutPagePOM(driver);
     }
@@ -44,11 +46,6 @@ public class cartPagePOM extends pomTests {
             shipping = toMoney(shipLabel);
         }
 
-        // Optional tax
-        BigDecimal tax = BigDecimal.ZERO;
-        List<WebElement> taxEls = driver.findElements(By.cssSelector("tr.tax-total td .woocommerce-Price-amount bdi"));
-        if (!taxEls.isEmpty()) tax = toMoney(taxEls.get(0).getText());
-
         String totalTxt = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.cssSelector(".order-total > td"))).getText();
 
@@ -59,7 +56,7 @@ public class cartPagePOM extends pomTests {
         return new Totals(subtotal, discount, shipping, tax, totalUI);
     }
 
-    // Simple “inline cleaning” (no separate parseMoney util)
+    // Used this method instead of ParseMoney as I couldn't get ParseMoney to work - so that the money is converted to a usable data chunk
     private BigDecimal toMoney(String s) {
         String cleaned = s.replace("£","")
                 .replace(",","")
